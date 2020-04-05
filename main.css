@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.container > label {
+    font-size: large;
+}
+.form-control {
+    margin-bottom: 10px;
+    height: 200px;
+}
+
+.process-code-btn {
+    height: 25px;
+    font-size: medium;
+}
+
+.output {
+    margin-top: 20px;
+}
+
+label {
+    margin-bottom: 7px;
+}
