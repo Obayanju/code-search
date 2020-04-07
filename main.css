@@ -14,14 +14,26 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column;
-    width: 500px;
+    flex-direction: row;
+    width: 800px;
     margin-left: auto;
     margin-right: auto;
 }
+
 .container > label {
     font-size: large;
 }
+
+#code-input, #code-output {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+#code-input {
+    margin-right: 2em;
+}
+
 .form-control {
     margin-bottom: 10px;
     height: 200px;

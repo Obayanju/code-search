@@ -12,12 +12,19 @@
         <div>Code Search</div>
     </header>
     <div class='container'>
-        <label for="code-area">Paste a JavaScript code</label>
-        <textarea class="form-control" id="code-area"></textarea>
-        <button type="button" id="process-code" class="process-code-btn">Process code</button>
-
-        <label for="output-area" class='output'>Output</label>
-        <textarea class="form-control" id="code-output"></textarea>
+        <div id='code-input'>
+            <label for="code-area">Paste a JavaScript code</label>
+            <textarea class="form-control" id="code-area"></textarea>
+            <button type="button" id="process-code" class="process-code-btn">Process code</button>
+        </div>
+        <div id='code-output'>
+            <div class='search'>
+                <textarea id="search-text"></textarea>
+                <button>search</button>
+            </div>
+            <label for="output-area" class='output'>Output</label>
+            <textarea class="form-control"></textarea>
+        </div>
     </div>
     <script src='main.js'></script>
 </body>
