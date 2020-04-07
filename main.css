@@ -1,3 +1,17 @@
+body {
+    margin: 0;
+    background-color: #FCF7F0;
+    color:black;
+}
+
+.Header {
+    padding: 10px;
+    font-size: large;
+    font-weight: 900;
+    color: #1E2D35;
+    margin-bottom: 10px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
