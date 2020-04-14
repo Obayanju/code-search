@@ -36,6 +36,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 console.error('Error:', error)
             })
     }
+    let parseUrlBtn = document.querySelector('#repo-input-btn');
+    parseUrlBtn.onclick = () => {
+        let urlTextEl = document.querySelector('#repo-input>textarea');
+        parseGithubURL(urlTextEl.value);
+        // console.log(owner, repo);
+    }
 });
 
 /**
@@ -55,11 +61,11 @@ async function getAllFiles(path) {
 function getJSRepos(filesArr) {
     filesArr.forEach(content => {
         if (content.type == 'file' && isJSFile(content.name)) {
-            // console.log(content.path, content.html_url)
-            jsFiles.push({ path: content.path, htmlURL: content.html_url });
+            populateHTMLWithGithubURL(content)
+            jsFiles.push({ path: content.path, html_url: content.html_url });
         }
         else if (content.type == 'dir') {
-            getAllFiles(content.path).then(json => getJSRepos(json));
+            getAllFiles(content.path).then(json => getJSRepos(json))
         }
     });
 }
@@ -72,8 +78,22 @@ function isJSFile(fileName) {
     return false;
 }
 
-let filesJSON = [];
-getAllFiles('').then(result => {
-    getJSRepos(result);
-    console.log(jsFiles);
-});
+function populateHTMLWithGithubURL(item) {
+    let filesEl = document.querySelector('#js-files-section');
+    let a = document.createElement('a');
+    a.href = item.html_url;
+    a.innerHTML = item.path;
+    filesEl.appendChild(a);
+    filesEl.appendChild(document.createElement('br'));
+}
+
+function parseGithubURL(url) {
+    let parts = url.split('/');
+    owner = parts[parts.length - 2]
+    repo = parts[parts.length - 1]
+
+    getAllFiles('').then(async result => {
+        getJSRepos(result);
+    });
+}
+
