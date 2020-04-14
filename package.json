@@ -1,0 +1,23 @@
+{
+  "name": "code-search",
+  "version": "1.0.0",
+  "description": "Searching a large codebase can get messy. Looking for one function in a codebase with hundreds of files? Looking for an example for how an API is supposed to be used? Finding references to everywhere a certain function is used? Looking for a web based tool to help with that? code search is the application to do just that.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Obayanju/code-search.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Obayanju/code-search/issues"
+  },
+  "homepage": "https://github.com/Obayanju/code-search#readme",
+  "dependencies": {
+    "buffer": "^5.5.0",
+    "dotenv": "^8.2.0"
+  }
+}
