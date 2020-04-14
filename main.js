@@ -1,11 +1,11 @@
-const dotenv = require('dotenv').config({ debug: process.env.DEBUG })
-console.log(process.env.TOKEN);
+require('dotenv').config()
+const TOKEN = '2e425b8eadd06a8054e813647cbf9c046eb5ffa5';
 let Buffer = require('buffer/').Buffer
 
 const PORT = 3000;
-const username = 'obayanju', token = process.env.TOKEN;
-let owner = 'obayanju';
-let repo = 'code-search';
+const username = 'obayanju';
+let owner = 'expressjs';
+let repo = 'express';
 let jsFiles = [];
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                'Authorization': `Basic ${new Buffer(username + ':' + token).toString('base64')}`
+                'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
             },
             body: JSON.stringify(req_body),
         })
@@ -45,7 +45,7 @@ async function getAllFiles(path) {
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
     const response = await fetch(url, {
         headers: {
-            'Authorization': `Basic ${new Buffer(username + ':' + token).toString('base64')}`
+            'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
         }
     });
     const result = await response.json();

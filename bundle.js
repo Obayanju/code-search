@@ -1,13 +1,12 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-(function (process){
-const dotenv = require('dotenv').config({ debug: process.env.DEBUG })
-console.log(process.env.TOKEN);
+require('dotenv').config()
+const TOKEN = '2e425b8eadd06a8054e813647cbf9c046eb5ffa5';
 let Buffer = require('buffer/').Buffer
 
 const PORT = 3000;
-const username = 'obayanju', token = process.env.TOKEN;
-let owner = 'obayanju';
-let repo = 'code-search';
+const username = 'obayanju';
+let owner = 'expressjs';
+let repo = 'express';
 let jsFiles = [];
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -23,7 +22,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             method: "POST",
             headers: {
                 "Content-type": "application/json",
-                'Authorization': `Basic ${new Buffer(username + ':' + token).toString('base64')}`
+                'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
             },
             body: JSON.stringify(req_body),
         })
@@ -47,7 +46,7 @@ async function getAllFiles(path) {
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
     const response = await fetch(url, {
         headers: {
-            'Authorization': `Basic ${new Buffer(username + ':' + token).toString('base64')}`
+            'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
         }
     });
     const result = await response.json();
@@ -79,8 +78,7 @@ getAllFiles('').then(result => {
     getJSRepos(result);
     console.log(jsFiles);
 });
-}).call(this,require('_process'))
-},{"_process":11,"buffer/":3,"dotenv":4}],2:[function(require,module,exports){
+},{"buffer/":3,"dotenv":4}],2:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
