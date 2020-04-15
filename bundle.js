@@ -13,35 +13,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let processCodeBtn = document.querySelector("#process-code");
     let outputEl = document.querySelector("#code-output>textarea");
     processCodeBtn.onclick = () => {
-        let inputEl = document.querySelector("#code-area");
-        let text = inputEl.value;
-        let req_body = {
-            code: text
-        }
-        fetch(`http://localhost:${PORT}`, {
-            method: "POST",
-            headers: {
-                "Content-type": "application/json",
-                'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
-            },
-            body: JSON.stringify(req_body),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                // console.log(data)
-                for (const token of data) {
-                    outputEl.innerHTML += token + '\n';
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error)
-            })
+        // let inputEl = document.querySelector("#code-area");
+        // let text = inputEl.value;
+        // let req_body = {
+        //     code: text
+        // }
+        // fetch(`http://localhost:${PORT}`, {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-type": "application/json",
+        //         'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
+        //     },
+        //     body: JSON.stringify(req_body),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         // console.log(data)
+        //         for (const token of data) {
+        //             outputEl.innerHTML += token + '\n';
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error:', error)
+        //     })
     }
     let parseUrlBtn = document.querySelector('#repo-input-btn');
     parseUrlBtn.onclick = () => {
         let urlTextEl = document.querySelector('#repo-input>textarea');
         parseGithubURL(urlTextEl.value);
-        // console.log(owner, repo);
     }
 });
 
@@ -79,11 +78,25 @@ function isJSFile(fileName) {
     return false;
 }
 
+async function loadCodeIntoDiv(item) {
+    let inputEl = document.querySelector("#code-area");
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${item.path}`
+    const response = await fetch(url, {
+        headers: {
+            'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
+        }
+    })
+    const result = await response.json()
+    console.log(result.content)
+    inputEl.innerHTML = atob(result.content)
+}
+
 function populateHTMLWithGithubURL(item) {
     let filesEl = document.querySelector('#js-files-section');
     let a = document.createElement('a');
     a.href = item.html_url;
     a.innerHTML = item.path;
+    a.onclick = function () { loadCodeIntoDiv(item); return false }
     filesEl.appendChild(a);
     filesEl.appendChild(document.createElement('br'));
 }
