@@ -13,29 +13,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let processCodeBtn = document.querySelector("#process-code");
     let outputEl = document.querySelector("#code-output>textarea");
     processCodeBtn.onclick = () => {
-        // let inputEl = document.querySelector("#code-area");
-        // let text = inputEl.value;
-        // let req_body = {
-        //     code: text
-        // }
-        // fetch(`http://localhost:${PORT}`, {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-type": "application/json",
-        //         'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
-        //     },
-        //     body: JSON.stringify(req_body),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         // console.log(data)
-        //         for (const token of data) {
-        //             outputEl.innerHTML += token + '\n';
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.error('Error:', error)
-        //     })
+        let inputEl = document.querySelector("#code-area");
+        let text = inputEl.value;
+        let req_body = {
+            code: text,
+        }
+        fetch(`http://localhost:${PORT}`, {
+            method: "POST",
+            headers: {
+                "Content-type": "application/json",
+                'Authorization': `Basic ${new Buffer(username + ':' + TOKEN).toString('base64')}`
+            },
+            body: JSON.stringify(req_body),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                clear(outputEl)
+                for (const token of data) {
+                    outputEl.innerHTML += token + '\n';
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+            })
     }
     let parseUrlBtn = document.querySelector('#repo-input-btn');
     parseUrlBtn.onclick = () => {
@@ -43,6 +43,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         parseGithubURL(urlTextEl.value);
     }
 });
+
+function clear(el) {
+    el.innerHTML = ''
+}
 
 /**
  * Get all files in a directory
@@ -87,7 +91,6 @@ async function loadCodeIntoDiv(item) {
         }
     })
     const result = await response.json()
-    console.log(result.content)
     inputEl.innerHTML = atob(result.content)
 }
 
