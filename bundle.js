@@ -15,10 +15,26 @@ document.addEventListener('DOMContentLoaded', (event) => {
     processCodeBtn.onclick = () => {
         processCode()
     }
+
     let parseUrlBtn = document.querySelector('#repo-input-btn');
     parseUrlBtn.onclick = () => {
         let urlTextEl = document.querySelector('#repo-input>textarea');
         parseGithubURL(urlTextEl.value);
+    }
+
+    let searchEl = document.querySelector("#search-text")
+    let searchBtn = document.querySelector("#search")
+    searchBtn.onclick = () => {
+        if (searchEl.value != '') {
+            let bound = search(searchEl.value)
+            if (bound[0] != -1) {
+                let outputEl = document.querySelector("#code-output>textarea");
+                clear(outputEl)
+                for (let i = bound[0]; i <= bound[1]; i++) {
+                    outputEl.innerHTML += `${identTokens[i].LineNumber}: ${identTokens[i].FilePath}\n`
+                }
+            }
+        }
     }
 });
 
@@ -130,6 +146,50 @@ async function sendCodeToInterpreter(code, filePath) {
     })
     const result = await response.json();
     return result
+}
+
+function search(item) {
+    let size = identTokens.length
+    let start = -1, end = -1
+    let i = 0;
+    while (identTokens[i].Literal.toLowerCase() != item && i < size) {
+        i++
+    }
+    start = i
+
+    i = size - 1;
+    while (identTokens[i].Literal.toLowerCase() != item && i > -1) {
+        i--
+    }
+    end = i
+    return [start, end]
+    // console.log("find start")
+    // while (l + 1 < r) {
+    //     let mid = Math.floor(l + r / 2)
+    //     console.log(identTokens[mid].Literal.toLowerCase(), item.toLowerCase())
+    //     if (identTokens[mid].Literal.toLowerCase() >= item.toLowerCase()) {
+    //         r = mid
+    //     } else {
+    //         l = mid
+    //     }
+    // }
+    // if (identTokens[l].Literal.toLowerCase() == item) start = l
+    // else if (identTokens[r].Literal.toLowerCase() == item) start = r
+    // console.log("start found")
+
+    // console.log("find end")
+    // l = 0, r = size - 1
+    // while (l + 1 < r) {
+    //     let mid = Math.floor(l + r / 2)
+    //     if (identTokens[mid].Literal.toLowerCase() <= item.toLowerCase()) {
+    //         l = mid
+    //     } else {
+    //         r = mid
+    //     }
+    // }
+    // if (identTokens[r].Literal.toLowerCase() == item) end = r
+    // else if (identTokens[l].Literal.toLowerCase() == item) end = l
+    // console.log("end found")
 }
 
 function compare(a, b) {
